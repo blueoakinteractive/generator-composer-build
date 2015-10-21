@@ -1,0 +1,1 @@
+Place files in this directory as you would /sites/default/files

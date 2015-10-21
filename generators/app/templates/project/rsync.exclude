@@ -1,0 +1,5 @@
+/.git
+/.gitignore
+sites/default/libraries
+sites/default/modules
+sites/default/themes
