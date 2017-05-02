@@ -1,1 +1,0 @@
-Place custom themes in this directory as you would /sites/all/themes

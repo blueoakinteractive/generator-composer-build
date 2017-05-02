@@ -1,1 +1,0 @@
-Place libraries in this directory as you would /sites/all/libraries

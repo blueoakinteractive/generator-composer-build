@@ -1,1 +1,0 @@
-Place patches in this directory for use in project.make

@@ -1,0 +1,9 @@
+core: 7.x
+api: 2
+projects:
+  drupal:
+    version: '7.54'
+    download:
+      type: git
+      url: https://github.com/pantheon-systems/drops-7.git
+      branch: master

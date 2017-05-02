@@ -1,0 +1,11 @@
+local
+bin
+vendor
+drupal
+build
+docker-compose.yml
+compose
+www
+original-repo
+.ssh
+.idea

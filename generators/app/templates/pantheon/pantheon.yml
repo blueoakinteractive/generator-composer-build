@@ -1,0 +1,16 @@
+# Pantheon Advanced Site Configuration
+# See: https://pantheon.io/docs/pantheon-yml/
+
+# API Version:
+# https://pantheon.io/docs/pantheon-yml#advanced-site-configuration
+api_version: 1
+
+# PHP Version:
+# https://pantheon.io/docs/pantheon-yml#php-version
+# https://pantheon.io/docs/php-versions/
+php_version: 5.6
+
+# Drush Version:
+# https://pantheon.io/docs/pantheon-yml#drush-version
+# https://pantheon.io/docs/drush-versions/
+drush_version: 8

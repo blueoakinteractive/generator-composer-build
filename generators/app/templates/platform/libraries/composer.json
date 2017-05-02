@@ -1,0 +1,6 @@
+{
+  "name": "custom/libraries",
+  "description": "Custom Libraries",
+  "version": "1.0.0",
+  "type" : "drupal-custom-libraries"
+}

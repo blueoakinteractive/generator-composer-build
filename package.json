@@ -1,7 +1,7 @@
 {
-  "name": "generator-project-make",
+  "name": "generator-composer-build",
   "version": "1.0.0",
-  "description": "Yeoman generator to rebuild Drupal projects using drush make",
+  "description": "Yeoman generator to scaffold build process configuration",
   "files": [
     "generators"
   ],
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/doostinharrell/generator-project-make.git"
+    "url": "https://github.com/doostinharrell/generator-composer-build.git"
   },
   "keywords": [
     "yeoman-generator"
@@ -19,9 +19,9 @@
   "author": "Dustin Harrell",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/doostinharrell/generator-project-make/issues"
+    "url": "https://github.com/doostinharrell/generator-composer-build/issues"
   },
-  "homepage": "https://github.com/doostinharrell/generator-project-make#readme",
+  "homepage": "https://github.com/doostinharrell/generator-composer-build#readme",
   "dependencies": {
     "chalk": "^1.1.1",
     "yeoman-generator": "^0.20.2",

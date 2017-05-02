@@ -1,0 +1,6 @@
+{
+  "name": "custom/modules",
+  "description": "Custom Modules",
+  "version": "1.0.0",
+  "type" : "drupal-custom-modules"
+}

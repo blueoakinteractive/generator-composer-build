@@ -1,0 +1,29 @@
+image: blueoakinteractive/drupal-php:5.6.18
+
+before_script:
+# Setup the Pantheon private key for pushing code.
+- 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+- eval $(ssh-agent -s)
+- ssh-add <(echo "$DEPLOY_KEY")
+- mkdir -p ~/.ssh
+- '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+# Install composer
+- curl -sS https://getcomposer.org/installer | php
+
+- mv composer.phar /usr/local/bin/composer
+
+# Install all project dependencies
+- composer global require drush/drush
+
+- export PATH=$PATH:~/.composer/vendor/bin
+
+- echo "date.timezone = America/New_York" > /usr/local/etc/php/conf.d/timezone.ini
+
+# Build the site.
+build_job:
+  only:
+    - master
+  script:
+  - composer install --prefer-dist
+  - rsync -vrL -e 'ssh -p 49179' www/ <%= projectName %>@<%= projectName %>.production.clients.blueoakinteractive.net:~/www/ --exclude=sites/default/files --exclude=sites/default/settings.php --delete

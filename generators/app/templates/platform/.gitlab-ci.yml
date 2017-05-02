@@ -1,0 +1,59 @@
+image: blueoakinteractive/drupal-php:5.6.18
+
+before_script:
+# Setup the Pantheon private key for pushing code.
+- 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+- eval $(ssh-agent -s)
+- ssh-add <(echo "$PANTHEON_KEY")
+- mkdir -p ~/.ssh
+- '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+# Install composer
+- curl -sS https://getcomposer.org/installer | php
+
+- mv composer.phar /usr/local/bin/composer
+
+# Require prestissimo to speed up builds.
+- composer global require "hirak/prestissimo:^0.3"
+
+# Install all project dependencies
+- composer global require drush/drush
+
+- export PATH=$PATH:~/.composer/vendor/bin
+
+- echo "date.timezone = America/New_York" > /usr/local/etc/php/conf.d/timezone.ini
+
+# Build the site.
+stages:
+  - deploy
+
+# Deploy the site to 'master' on pantheon.
+job_deploy_master:
+  only:
+    - master
+  stage: deploy
+  script:
+  # Run composer install
+  - composer install --prefer-dist --no-interaction --no-progress
+
+  # Delete the symlinks created by composer and rsync
+  # the files into place for pushing to Pantheon.
+  - rm $CI_PROJECT_DIR/www/sites/all/modules/custom
+  - rm $CI_PROJECT_DIR/www/sites/all/themes/custom
+  - rsync -vr $CI_PROJECT_DIR/modules/ $CI_PROJECT_DIR/www/sites/all/modules/custom/
+  - rsync -vr $CI_PROJECT_DIR/themes/ $CI_PROJECT_DIR/www/sites/all/themes/custom/
+  - rsync -vr $CI_PROJECT_DIR/libraries/ $CI_PROJECT_DIR/www/sites/all/libraries/custom/
+
+  # Save the last commit message to a variable.
+  - export CI_COMMIT_MSG="$(git --git-dir=$CI_PROJECT_DIR/.git --work-tree=$CI_PROJECT_DIR/ log --format=%B --no-merges -n 1)"
+
+  # Clone the pantheon repository.
+  - git clone ssh://TODO.drush.in:2222/~/repository.git $CI_PROJECT_DIR/pantheon
+
+  # Move the pantheon .git directory over the one in the project root.
+  - rsync -vr --delete $CI_PROJECT_DIR/pantheon/.git/ $CI_PROJECT_DIR/www/.git/
+
+  # Add all changes, commit and push to Pantheon.
+  - git --git-dir=$CI_PROJECT_DIR/www/.git --work-tree=$CI_PROJECT_DIR/www/ add . --all
+  - git config --global user.email "<%= projectName %>@clients.blueoi.com"; git config --global user.name "Gitlab CI"; git --git-dir=$CI_PROJECT_DIR/www/.git --work-tree=$CI_PROJECT_DIR/www/ commit -m "Gitlab CI Commit $CI_COMMIT_MSG"
+  - git --git-dir=$CI_PROJECT_DIR/www/.git --work-tree=$CI_PROJECT_DIR/www/ push origin master
