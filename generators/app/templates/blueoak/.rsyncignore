@@ -1,11 +1,4 @@
-local
-bin
-vendor
-drupal
-build
-docker-compose.yml
-compose
-www
-original-repo
-.ssh
-.idea
+sites/all/modules/custom
+sites/all/themes/custom
+sites/default/settings.php
+sites/default/files

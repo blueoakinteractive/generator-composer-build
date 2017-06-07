@@ -28,7 +28,7 @@
     "installer-paths": {
       "www/sites/all/modules/custom": ["type:drupal-custom-modules"],
       "www/sites/all/themes/custom": ["type:drupal-custom-themes"],
-      "www/sites/all/libraries/custom": ["type:drupal-custom-libraries"]
+      "www/sites/all/libraries/{$name}": ["type:drupal-library"]
     }
   },
   "scripts": {
